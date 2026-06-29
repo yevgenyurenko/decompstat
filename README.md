@@ -43,6 +43,13 @@ decompstat rank-stability examples/synthetic_ar1/energies.csv examples/synthetic
 ```
 
 
+## Canonical schema
+
+The canonical input format is specified in `SPEC.md`. In short, DecompStat uses a
+long-format CSV table keyed by `sample_id`, `system_id`, `state_id`, `method_id`,
+`res_1`, `res_2`, and `component`, with dataset-level metadata defining units, sign
+convention, provenance, and the snapshot-pairing assertion.
+
 ## Precomputed score summaries
 
 DecompStat can also summarize already-computed snapshot-level scores, such as
