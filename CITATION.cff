@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use DecompStat, please cite the archived release."
+title: "DecompStat: paired comparison of residue-pair interaction-energy ensembles"
+version: 0.1.0
+authors:
+  - family-names: Yurenko
+    given-names: Yevgen
+date-released: 2026-06-29
+license: MIT

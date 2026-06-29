@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "decompstat"
+version = "0.1.0"
+description = "Paired statistical comparison and rank-stability analysis of residue-pair interaction-energy decompositions."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Yevgen Yurenko"}]
+dependencies = [
+  "numpy>=1.23",
+  "pandas>=2.0",
+  "scipy>=1.10",
+  "PyYAML>=6.0"
+]
+
+[project.optional-dependencies]
+pymbar = ["pymbar>=4.0"]
+dev = ["pytest>=7", "ruff>=0.4", "black>=24"]
+
+[project.scripts]
+decompstat = "decompstat.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["decompstat*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
