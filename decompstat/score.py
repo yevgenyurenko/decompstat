@@ -15,6 +15,7 @@ def score_summary(
     *,
     group: str | dict[str, str] | None = None,
     threshold: float = 0.5,
+    min_samples: int = 1,
 ) -> pd.DataFrame:
     """Summarize already-computed scores over snapshots.
 
@@ -51,6 +52,12 @@ def score_summary(
         rows.append(row)
 
     out = pd.DataFrame(rows)
+    if out.empty:
+        return out
+
+    if min_samples < 1:
+        raise ValueError("min_samples must be >= 1")
+    out = out[out["n_samples"] >= min_samples].copy()
     if out.empty:
         return out
 

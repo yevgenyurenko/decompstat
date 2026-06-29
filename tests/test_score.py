@@ -39,3 +39,32 @@ def test_score_summary_ranks_and_favourable_fraction():
 
     assert asp["fraction_favourable"] == 0.0
     assert asp["rank_by_mean_score"] == 2
+
+
+def test_score_summary_min_samples_filters_incomplete_groups():
+    df = pd.DataFrame(
+        {
+            "system_id": ["s", "s", "s"],
+            "state_id": ["B16_ARG", "B16_ARG", "B16_ASP"],
+            "method_id": ["m", "m", "m"],
+            "sample_id": ["t1", "t2", "t1"],
+            "res_1": ["INS:B16", "INS:B16", "INS:B16"],
+            "res_2": ["IR_SITE1", "IR_SITE1", "IR_SITE1"],
+            "component": ["ddg_score", "ddg_score", "ddg_score"],
+            "energy_total": [-2.0, 1.0, -10.0],
+            "mutation_id": ["ARG", "ARG", "ASP"],
+        }
+    )
+    meta = Metadata(**{
+        "schema_version": "0.1",
+        "energy_unit": "kcal/mol",
+        "sign_convention": "negative_is_stabilizing",
+        "snapshots_shared_across_methods": True,
+        "snapshot_definition": "test snapshots",
+        "provenance": {},
+    })
+
+    out = score_summary(df, meta, group="method_id=m", threshold=0.5, min_samples=2)
+
+    assert set(out["mutation_id"]) == {"ARG"}
+    assert int(out.iloc[0]["n_samples"]) == 2

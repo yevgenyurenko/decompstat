@@ -1,0 +1,7 @@
+schema_version: "0.1"
+energy_unit: "kcal/mol"
+sign_convention: "negative_is_stabilizing"
+snapshots_shared_across_methods: true
+snapshot_definition: "sample_id denotes the WT-derived physical snapshot used for mutation scoring"
+provenance:
+  SQM_MM_LEAP: "Converted from A8_A19_B16_B18_B24_B25_B26_TRAJ_1_TRAJ_2_TRAJ3.xlsx sheets A19, B16, B24, B25, B26"
