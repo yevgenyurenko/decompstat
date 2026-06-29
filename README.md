@@ -42,6 +42,24 @@ decompstat rank-stability examples/synthetic_ar1/energies.csv examples/synthetic
   --top-k 3 --out ranks.csv --n-boot 300
 ```
 
+
+## Precomputed score summaries
+
+DecompStat can also summarize already-computed snapshot-level scores, such as
+mutation-level `ddg_score` values. In this mode, `energy_total` is treated as the
+score itself. No WT-vs-mutant subtraction is performed.
+
+Example command:
+
+    decompstat score-summary examples/insulin_b16_manual/b16_manual_test.csv \
+      examples/insulin_b16_manual/metadata.yaml \
+      --group "method_id=SQM_MM_LEAP,component=ddg_score" \
+      --threshold 0.5 \
+      --out examples/insulin_b16_manual/score_summary.csv
+
+The output reports the mean score, score spread, number and fraction of favourable
+snapshots, and the rank by mean score.
+
 ## Statistical scope
 
 Uncertainty is estimated by moving-block bootstrap with block length derived from statistical
