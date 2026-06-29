@@ -12,8 +12,8 @@ Required CSV columns:
 
 - `sample_id`: physical snapshot identity shared across methods being compared.
 - `system_id`: broad molecular system/project label.
-- `state_id`: biological/chemical state, such as `WT` or `B16R`.
-- `method_id`: computational method/protocol, such as `MM_MM`, `SQM_MM`, or `MMGBSA`.
+- `state_id`: biological/chemical state, such as `STATE_REF` or `STATE_ALT`.
+- `method_id`: computational method/protocol, such as `METHOD_A`, `METHOD_B`, or `MMGBSA`.
 - `res_1`, `res_2`: residue or fragment identifiers.
 - `energy_total`: energy value.
 
@@ -33,12 +33,12 @@ decompstat validate examples/synthetic_ar1/energies.csv examples/synthetic_ar1/m
   --require-snapshot-assertion
 
 decompstat compare examples/synthetic_ar1/energies.csv examples/synthetic_ar1/metadata.yaml \
-  --ref "state_id=WT,method_id=MM_MM" \
-  --target "state_id=WT,method_id=SQM_MM" \
+  --ref "state_id=STATE_REF,method_id=METHOD_A" \
+  --target "state_id=STATE_REF,method_id=METHOD_B" \
   --out compare.csv --n-boot 300
 
 decompstat rank-stability examples/synthetic_ar1/energies.csv examples/synthetic_ar1/metadata.yaml \
-  --group "state_id=WT,method_id=SQM_MM" \
+  --group "state_id=STATE_REF,method_id=METHOD_B" \
   --top-k 3 --out ranks.csv --n-boot 300
 ```
 

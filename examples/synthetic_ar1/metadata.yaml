@@ -5,5 +5,5 @@ snapshots_shared_across_methods: true
 snapshot_definition: Synthetic sample_id values are shared physical snapshots across
   methods.
 provenance:
-  MM_MM: synthetic AR(1)
-  SQM_MM: synthetic AR(1) with offsets
+  METHOD_A: synthetic AR(1)
+  METHOD_B: synthetic AR(1) with offsets
