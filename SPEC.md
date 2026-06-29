@@ -44,6 +44,10 @@ sample_id is the physical snapshot key. Optional columns such as frame_id,
 replica_id, and time_ps are provenance fields and must not replace sample_id in
 paired comparisons.
 
+res_1 and res_2 are ordered, literal identifiers. DecompStat v0.1 does not
+canonicalize residue-pair orientation automatically: (A, B) and (B, A) are
+different keys unless the input workflow normalizes them before loading.
+
 ## 3. Uniqueness rule
 
 After normalization, this key must be unique:

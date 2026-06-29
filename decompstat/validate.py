@@ -7,6 +7,8 @@ import pandas as pd
 
 from .schema import REQUIRED_COLUMNS, SchemaError, Metadata
 
+IDENTIFIER_COLUMNS = ["sample_id", "system_id", "state_id", "method_id", "res_1", "res_2"]
+
 UNIQUE_KEY = [
     "system_id",
     "state_id",
@@ -48,6 +50,12 @@ def validate_dataset(
     if df[REQUIRED_COLUMNS].isna().any().any():
         cols = df[REQUIRED_COLUMNS].columns[df[REQUIRED_COLUMNS].isna().any()].tolist()
         raise SchemaError(f"Required columns contain NaN values: {cols}")
+
+    empty_identifier_cols = [
+        c for c in IDENTIFIER_COLUMNS if df[c].astype(str).str.strip().eq("").any()
+    ]
+    if empty_identifier_cols:
+        raise SchemaError(f"Identifier columns contain empty strings: {empty_identifier_cols}")
 
     if not np.isfinite(df["energy_total"].to_numpy(dtype=float)).all():
         raise SchemaError("energy_total contains NaN or infinite values.")

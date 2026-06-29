@@ -31,6 +31,20 @@ def test_schema_rejects_nan_energy():
         validate_dataset(df, Metadata())
 
 
+def test_schema_rejects_infinite_energy():
+    df = valid_df()
+    df.loc[0, "energy_total"] = float("inf")
+    with pytest.raises(SchemaError):
+        validate_dataset(df, Metadata())
+
+
+def test_schema_rejects_empty_identifier_string():
+    df = valid_df()
+    df.loc[0, "sample_id"] = "   "
+    with pytest.raises(SchemaError):
+        validate_dataset(df, Metadata())
+
+
 def test_schema_rejects_duplicate_keys():
     df = pd.concat([valid_df(), valid_df().iloc[[0]]], ignore_index=True)
     with pytest.raises(SchemaError):
