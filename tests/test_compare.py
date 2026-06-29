@@ -41,3 +41,22 @@ def test_compare_raises_on_empty_overlap():
     meta = Metadata(snapshots_shared_across_methods=True)
     with pytest.raises(SchemaError):
         paired_comparison(df, meta, {"method_id": "A"}, {"method_id": "B"}, n_boot=50)
+
+def test_compare_reports_flipped_pair_orientation_as_partial_overlap():
+    rows = []
+    for sample in ["s1", "s2", "s3"]:
+        rows.append({"sample_id": sample, "system_id": "sys", "state_id": "WT", "method_id": "A", "res_1": "R1", "res_2": "R2", "energy_total": 1.0})
+        rows.append({"sample_id": sample, "system_id": "sys", "state_id": "WT", "method_id": "B", "res_1": "R1", "res_2": "R2", "energy_total": 2.0})
+        rows.append({"sample_id": sample, "system_id": "sys", "state_id": "WT", "method_id": "A", "res_1": "R3", "res_2": "R4", "energy_total": 3.0})
+        rows.append({"sample_id": sample, "system_id": "sys", "state_id": "WT", "method_id": "B", "res_1": "R4", "res_2": "R3", "energy_total": 4.0})
+
+    df = normalize_dataframe(pd.DataFrame(rows))
+    meta = Metadata(snapshots_shared_across_methods=True)
+    out, coverage = paired_comparison(df, meta, {"method_id": "A"}, {"method_id": "B"}, n_boot=20)
+
+    assert coverage["n_common_keys"] == 3
+    assert coverage["n_dropped_from_a"] == 3
+    assert coverage["n_dropped_from_b"] == 3
+    assert out.loc[0, "n_pair_keys_dropped_from_ref"] == 3
+    assert out.loc[0, "n_pair_keys_dropped_from_target"] == 3
+    assert "partial_pair_key_overlap" in out.loc[0, "warning"]

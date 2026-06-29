@@ -78,11 +78,20 @@ def paired_comparison(
         res = block_bootstrap_mean(gdf["delta"].to_numpy(), n_boot=n_boot, seed=seed)
         ref_mean = float(gdf["energy_total_ref"].mean())
         target_mean = float(gdf["energy_total_target"].mean())
+        overlap_warning = ""
+        if coverage["n_dropped_from_a"] or coverage["n_dropped_from_b"]:
+            overlap_warning = "partial_pair_key_overlap"
+
         row = {
             "res_1": keys[0],
             "res_2": keys[1],
             "component": keys[2],
             "n_samples_used": int(gdf["sample_id"].nunique()),
+            "n_pair_keys_ref": coverage["n_keys_a"],
+            "n_pair_keys_target": coverage["n_keys_b"],
+            "n_pair_keys_common": coverage["n_common_keys"],
+            "n_pair_keys_dropped_from_ref": coverage["n_dropped_from_a"],
+            "n_pair_keys_dropped_from_target": coverage["n_dropped_from_b"],
             "mean_ref": ref_mean,
             "mean_target": target_mean,
             "mean_diff_target_minus_ref": res.mean,
@@ -92,7 +101,7 @@ def paired_comparison(
             "g": res.g,
             "n_eff": res.n_eff,
             "block_length": res.block_length,
-            "warning": res.warning,
+            "warning": ";".join(w for w in [res.warning, overlap_warning] if w),
         }
         rows.append(row)
     result = pd.DataFrame(rows).sort_values(["component", "res_1", "res_2"]).reset_index(drop=True)
