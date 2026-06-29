@@ -1,0 +1,4 @@
+system_id,state_id,method_id,res_1,res_2,component,mutation_id,n_rows,n_samples,mean_score,sd_score,min_score,max_score,threshold,n_favourable,fraction_favourable,rank_by_mean_score
+insulin_ir,B16_ARG,SQM_MM_LEAP,INS:B16:TYR,IR_SITE1_FRAGMENT,ddg_score,ARG,2,2,-2.3716775,2.4644021898303246,-4.114273,-0.629082,0.5,2,1.0,1
+insulin_ir,B16_ALA,SQM_MM_LEAP,INS:B16:TYR,IR_SITE1_FRAGMENT,ddg_score,ALA,2,2,5.481202,0.8200614326268494,4.901331,6.061073,0.5,0,0.0,2
+insulin_ir,B16_ASP,SQM_MM_LEAP,INS:B16:TYR,IR_SITE1_FRAGMENT,ddg_score,ASP,2,2,10.2365295,1.7587025511383383,8.992939,11.48012,0.5,0,0.0,3

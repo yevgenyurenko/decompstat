@@ -1,0 +1,7 @@
+system_id,state_id,method_id,sample_id,replica_id,time_ps,res_1,res_2,component,energy_total,mutation_id,mutant_energy,wt_energy,is_favourable
+insulin_ir,B16_ALA,SQM_MM_LEAP,traj1_t0.56ns,traj1,560,INS:B16:TYR,IR_SITE1_FRAGMENT,ddg_score,4.901331,ALA,-78.370001,-83.271332,false
+insulin_ir,B16_ARG,SQM_MM_LEAP,traj1_t0.56ns,traj1,560,INS:B16:TYR,IR_SITE1_FRAGMENT,ddg_score,-4.114273,ARG,-87.385605,-83.271332,true
+insulin_ir,B16_ASP,SQM_MM_LEAP,traj1_t0.56ns,traj1,560,INS:B16:TYR,IR_SITE1_FRAGMENT,ddg_score,8.992939,ASP,-74.278393,-83.271332,false
+insulin_ir,B16_ALA,SQM_MM_LEAP,traj1_t2.55ns,traj1,2550,INS:B16:TYR,IR_SITE1_FRAGMENT,ddg_score,6.061073,ALA,-77.528406,-83.589479,false
+insulin_ir,B16_ARG,SQM_MM_LEAP,traj1_t2.55ns,traj1,2550,INS:B16:TYR,IR_SITE1_FRAGMENT,ddg_score,-0.629082,ARG,-84.218561,-83.589479,false
+insulin_ir,B16_ASP,SQM_MM_LEAP,traj1_t2.55ns,traj1,2550,INS:B16:TYR,IR_SITE1_FRAGMENT,ddg_score,11.480120,ASP,-72.109359,-83.589479,false

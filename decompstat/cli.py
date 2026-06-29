@@ -10,6 +10,7 @@ from .schema import SchemaError, dump_metadata_template
 from .validate import validate_dataset, summarize_inventory
 from .compare import paired_comparison, mutant_scan
 from .ranking import rank_stability, rank_agreement
+from .score import score_summary
 from .report import write_report, file_sha256
 
 
@@ -82,6 +83,27 @@ def cmd_mutant_scan(args: argparse.Namespace) -> int:
         **{k: str(v) for k, v in coverage.items()},
     }
     write_report(table, args.out, title="DecompStat mutant scan", provenance=provenance)
+    return 0
+
+
+def cmd_score_summary(args: argparse.Namespace) -> int:
+    df, meta = read_dataset(args.data, args.metadata)
+    table = score_summary(
+        df,
+        meta,
+        group=args.group,
+        threshold=args.threshold,
+    )
+    write_report(
+        table,
+        args.out,
+        title="DecompStat score summary",
+        provenance={
+            "input_sha256": file_sha256(args.data),
+            "group": str(args.group),
+            "threshold": str(args.threshold),
+        },
+    )
     return 0
 
 
@@ -158,6 +180,13 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--n-boot", type=int, default=1000)
     p.add_argument("--seed", type=int, default=12345)
     p.set_defaults(func=cmd_mutant_scan)
+
+    p = sub.add_parser("score-summary", help="Summarize already-computed snapshot-level scores")
+    _add_common_io(p)
+    p.add_argument("--group", default="", help="Optional selector, e.g. method_id=SQM_MM_LEAP,component=ddg_score")
+    p.add_argument("--threshold", type=float, default=0.5, help="Favourable-score threshold")
+    p.add_argument("--out", required=True, help="Output .csv/.json/.md")
+    p.set_defaults(func=cmd_score_summary)
 
     p = sub.add_parser("rank-stability", help="Bootstrap rank stability for one selected group")
     _add_common_io(p)
