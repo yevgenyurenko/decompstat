@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import re
 from pathlib import Path
 
@@ -137,3 +138,32 @@ def read_mutation_score_excel(
         return out
 
     return out.sort_values(["res_1", "mutation_id", "sample_id"]).reset_index(drop=True)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Convert the insulin mutation-score Excel workbook to canonical DecompStat CSV."
+    )
+    parser.add_argument("workbook", help="Input .xlsx workbook")
+    parser.add_argument("--sheets", default="", help="Comma-separated sheet names, e.g. A19,B16,B24,B25,B26")
+    parser.add_argument("--out", required=True, help="Output canonical CSV file")
+    parser.add_argument("--system-id", default="insulin_ir")
+    parser.add_argument("--method-id", default="SQM_MM_LEAP")
+    parser.add_argument("--component", default="ddg_score")
+    args = parser.parse_args()
+
+    sheets = [s.strip() for s in args.sheets.split(",") if s.strip()] if args.sheets else None
+    df = read_mutation_score_excel(
+        args.workbook,
+        sheets=sheets,
+        system_id=args.system_id,
+        method_id=args.method_id,
+        component=args.component,
+    )
+    df.to_csv(args.out, index=False)
+    print(f"Wrote {len(df)} rows to {args.out}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

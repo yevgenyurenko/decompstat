@@ -62,16 +62,20 @@ snapshots, and the rank by mean score. Use `--min-samples` to exclude incomplete
 groups from ranking, for example when only mutations observed in all snapshots should
 be compared.
 
-## Excel mutation-score workbook conversion
+## Example Excel mutation-score workbook conversion
 
-A project-specific adapter is included for the insulin mutation-score workbook used in
-the example. It converts wide snapshot blocks into the canonical long CSV format. The
-adapter is separate from the canonical schema; users with other input formats can write
-canonical CSV files directly.
+The core package does not include an Excel parser or a `convert-excel` command.
+A project-specific conversion script for the insulin mutation-score workbook is kept
+under `examples/scripts/` as an example of how to convert external data into the
+canonical long CSV format.
+
+Install the optional Excel dependency before running this example script:
+
+    pip install -e ".[excel]"
 
 Example command:
 
-    decompstat convert-excel path/to/A8_A19_B16_B18_B24_B25_B26_TRAJ_1_TRAJ_2_TRAJ3.xlsx \
+    python examples/scripts/convert_insulin_excel.py path/to/A8_A19_B16_B18_B24_B25_B26_TRAJ_1_TRAJ_2_TRAJ3.xlsx \
       --sheets A19,B16,B24,B25,B26 \
       --out examples/insulin_mutation_scores/insulin_mutation_scores.csv
 

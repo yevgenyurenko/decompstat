@@ -11,7 +11,6 @@ from .validate import validate_dataset, summarize_inventory
 from .compare import paired_comparison, mutant_scan
 from .ranking import rank_stability, rank_agreement
 from .score import score_summary
-from .excel import read_mutation_score_excel
 from .report import write_report, file_sha256
 
 
@@ -23,22 +22,6 @@ def _add_common_io(parser: argparse.ArgumentParser) -> None:
 def cmd_template(args: argparse.Namespace) -> int:
     dump_metadata_template(args.out)
     return 0
-
-
-def cmd_convert_excel(args: argparse.Namespace) -> int:
-    sheets = [s.strip() for s in args.sheets.split(",") if s.strip()] if args.sheets else None
-    df = read_mutation_score_excel(
-        args.workbook,
-        sheets=sheets,
-        system_id=args.system_id,
-        method_id=args.method_id,
-        component=args.component,
-    )
-    df.to_csv(args.out, index=False)
-    print(f"Wrote {len(df)} rows to {args.out}")
-    return 0
-
-
 
 
 def cmd_validate(args: argparse.Namespace) -> int:
@@ -169,15 +152,6 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("metadata-template", help="Write a metadata sidecar template")
     p.add_argument("out", help="Output .yaml/.yml/.json path")
     p.set_defaults(func=cmd_template)
-
-    p = sub.add_parser("convert-excel", help="Convert mutation-score Excel workbook to canonical CSV")
-    p.add_argument("workbook", help="Input .xlsx workbook")
-    p.add_argument("--sheets", default="", help="Comma-separated sheet names, e.g. A19,B16,B24,B25,B26")
-    p.add_argument("--out", required=True, help="Output canonical CSV file")
-    p.add_argument("--system-id", default="insulin_ir")
-    p.add_argument("--method-id", default="SQM_MM_LEAP")
-    p.add_argument("--component", default="ddg_score")
-    p.set_defaults(func=cmd_convert_excel)
 
     p = sub.add_parser("validate", help="Validate canonical data and metadata")
     _add_common_io(p)
