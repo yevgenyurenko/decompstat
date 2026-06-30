@@ -1,5 +1,7 @@
 # DecompStat
 
+[![tests](https://github.com/yevgenyurenko/decompstat/actions/workflows/tests.yml/badge.svg)](https://github.com/yevgenyurenko/decompstat/actions/workflows/tests.yml)
+
 DecompStat is a small Python package for paired statistical comparison and rank-stability
 analysis of already-computed residue-level or residue-pair interaction-energy decompositions.
 
@@ -108,6 +110,10 @@ short or strongly autocorrelated series, output warnings should be treated serio
 
 ## Current status
 
-This is a v0.1.0 scaffold intended for audit and iteration before any SoftwareX submission.
-The first development priority is correctness of schema validation, snapshot pairing, and
-sample-level bootstrap behavior.
+DecompStat v0.1.0 defines a frozen canonical schema/statistics core for paired
+decomposition-table comparison, rank-stability analysis, and precomputed score summaries.
+
+The package is intentionally narrow: it validates canonical tables, checks paired overlap,
+reports autocorrelation-aware uncertainty, and writes deterministic reports. Program-specific
+parsers, manuscript-specific workflows, and large case-study data should live outside the
+importable core package.
